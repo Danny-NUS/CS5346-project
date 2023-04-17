@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Static Template</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+          font-family: "Lucida Calligraphy", cursive, serif, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align:center;">
+      <svg id ="root1" width="1500" height="1500"></svg>
+      <svg id="my_dataviz2" height=300 width=450></svg>
+    </div>
+    <script>
+
+      const data = [
+        { name: "Europe", color: d3.color("rgba(241,186,161,1)"), angle: 1},
+        { name: "Africa", color: d3.color("rgba(241,186,161,0.8)"), angle: 1 },
+        { name: "Americas", color: d3.color("rgba(241,186,161,0.6)"), angle: 1 },
+        { name: "Asia", color: d3.color("rgba(241,186,161,0.4)"), angle: 1 },
+        { name: "Oceania", color: d3.color("rgba(241,186,161,0.2)"), angle: 1 }
+      ];
+
+      const hiphop = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+      const funk = [1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2]
+      const disco = [1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 1, 0.2]
+      const electronic = [1, 1, 1, 0.2, 0.2, 1, 1, 0.2, 0.2, 0.2, 1, 1, 0.2, 0.2, 0.2, 1, 1, 1, 0.2, 0.2, 1, 1, 1, 0.2, 0.2]
+      const blues = [1, 1, 1, 0.2, 0.2, 1, 1, 1, 0.2, 0.2, 1, 1, 1, 0.2, 0.2, 1, 1, 1, 1, 0.2, 1, 1, 1, 0.2, 0.2]
+      const world = [1, 1, 1, 0.2, 0.2, 1, 1, 0.2, 0.2, 0.2, 1, 1, 1, 0.2, 0.2, 1, 1, 1, 0.2, 0.2, 1, 1, 1, 0.2, 0.2]
+      const movie = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1, 0.2, 0.2, 0.2, 0.2, 1, 0.2, 0.2, 0.2, 0.2, 1, 0.2, 0.2, 0.2, 0.2]
+      const classical = [1, 1, 0.2, 0.2, 0.2, 1, 0.2, 0.2, 0.2, 0.2, 1, 1, 0.2, 0.2, 0.2, 1, 1, 0.2, 0.2, 0.2, 1, 1, 0.2, 0.2, 0.2]
+      
+      stride = 10
+      const data_1 = [
+        {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, 
+        {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1},
+        {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}, {angle: 1}
+    ];
+
+      console.log(data_1);
+
+      const op = 0.6
+      colors = [d3.color("rgba(4,157,217,0.6)"), d3.color("rgba(13,13,13,0.6)"), d3.color("rgba(242,5,92,0.6)"), d3.color("rgba(242,159,5,0.6)"), d3.color("rgba(3,166,60,0.6)")]
+      color_wheel = ["rgba(147,65,82,", "rgba(135,75,70,", "rgba(120,53,86,", "rgba(131,65,126,", "rgba(99,80,76,", "rgba(112,96,93,", "rgba(95,112,86,", "rgba(87,167,97,"]
+
+      console.log(data)
+
+      const dimensions = {
+        width: 1500,
+        height: 1500,
+        margin: {
+          top: 15,
+          right: 15,
+          bottom: 40,
+          left: 60
+        }
+      };
+
+      dimensions.boundedWidth =
+        dimensions.width - dimensions.margin.left - dimensions.margin.right;
+      dimensions.boundedHeight =
+        dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
+
+      const pieData = d3
+        .pie()
+        .value((d) => d.angle)(data);
+      // .sort((a, b) => a.value - b.value)(data);
+      console.log(pieData); // {startAngle: x, endAngle:x,padAngle: x}
+      
+      const pieData_1 = d3
+        .pie()
+        .value((d) => d.angle)(data_1);
+
+      // third layer
+      const svg3 = d3
+        .select("#root1")
+        .append("svg")
+        .attr("width", dimensions.width)
+        .attr("height", dimensions.height);
+
+      const arc1 = d3.arc().innerRadius(50).outerRadius(150);
+
+      const out_circle = 150
+
+      // const color = '#84AED7s';
+
+      const arcGroup3 = svg3
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData);
+
+      arcGroup3
+        .join("path")
+        .attr("fill", function (d, i) {return colors[i]})
+        .attr("d", arc1)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+      // second layer
+      const svg2 = d3
+        .select("#root1")
+        .append("svg")
+        .attr("width", dimensions.width)
+        .attr("height", dimensions.height);
+
+      const arc2 = d3.arc().innerRadius(out_circle+10).outerRadius(out_circle+20);
+
+      // const color = '#84AED7s';
+
+      const arcGroup2 = svg2
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup2
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[0] + "" + hiphop[i] + ')')})
+        .attr("d", arc2)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+      // second layer
+      const svg1 = d3
+        .select("#root1")
+        .append("svg")
+        .attr("width", dimensions.width)
+        .attr("height", dimensions.height);
+
+      const arc3 = d3.arc().innerRadius(out_circle+25).outerRadius(out_circle+35);
+
+      // const color = '#84AED7s';
+
+      const arcGroup1 = svg1
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup1
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[1] + "" + funk[i] + ')')})
+        .attr("d", arc3)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+
+        // second layer
+      const svg4 = d3
+        .select("#root1")
+        .append("svg")
+        .attr("width", dimensions.width)
+        .attr("height", dimensions.height);
+
+      const arc4 = d3.arc().innerRadius(out_circle+40).outerRadius(out_circle+50);
+
+      // const color = '#84AED7s';
+
+      const arcGroup4 = svg4
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup4
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[2] + "" + disco[i] + ')')})
+        .attr("d", arc4)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+
+      const svg5 = d3
+      .select("#root1")
+      .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height);
+
+      const arc5 = d3.arc().innerRadius(out_circle+55).outerRadius(out_circle+65);
+
+      // const color = '#84AED7s';
+
+      const arcGroup5 = svg5
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup5
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[3] + "" + electronic[i] + ')')})
+        .attr("d", arc5)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+      
+      const svg6 = d3
+      .select("#root1")
+      .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height);
+
+      const arc6 = d3.arc().innerRadius(out_circle+70).outerRadius(out_circle+80);
+
+      // const color = '#84AED7s';
+
+      const arcGroup6 = svg6
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup6
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[4] + "" + blues[i] + ')')})
+        .attr("d", arc6)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+      
+        const svg7 = d3
+      .select("#root1")
+      .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height);
+
+      const arc7 = d3.arc().innerRadius(out_circle+85).outerRadius(out_circle+95);
+
+      // const color = '#84AED7s';
+
+      const arcGroup7 = svg7
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup7
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[5] + "" + world[i] + ')')})
+        .attr("d", arc7)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+      
+        const svg8 = d3
+      .select("#root1")
+      .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height);
+
+      const arc8 = d3.arc().innerRadius(out_circle+100).outerRadius(out_circle+110);
+
+      // const color = '#84AED7s';
+
+      const arcGroup8 = svg8
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup8
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[6] + "" + movie[i] + ')')})
+        .attr("d", arc8)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+
+      
+        const svg9 = d3
+      .select("#root1")
+      .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height);
+
+      const arc9 = d3.arc().innerRadius(out_circle+115).outerRadius(out_circle+125);
+
+      // const color = '#84AED7s';
+
+      const arcGroup9 = svg9
+        .append("g")
+        .attr("transform", "translate(300, 300)")
+        .selectAll("path")
+        .data(pieData_1);
+
+
+      arcGroup9
+        .join("path")
+        .attr("fill", function (d, i) {return d3.color(color_wheel[7] + "" + classical[i] + ')')})
+        .attr("d", arc9)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 5);
+      
+        const svg10 = d3
+      .select("#root1")
+      .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height);
+
+      // // month labels
+      arcGroup3
+            .join("text")
+            .text((d) => d.data.name)
+            .attr("transform", function (d) {
+                let tx = 70;
+                let dangle = ((d.endAngle - (d.endAngle - d.startAngle) / 2) * 180) / Math.PI - 88
+                return `rotate(${dangle})
+                    translate(${tx})`;
+            })
+            .attr("fill", "#333");
+
+        // arcGroup1
+        // .join("path")
+        // .attr("fill", d3.color("rgba(109,140,0,1)"))
+        // .attr("d", arc3)
+        // .attr('stroke', 'white')
+        // .attr('stroke-width', 5);
+
+
+      // // the first layer
+      // const svg1 = d3
+      //   .select("#root1")
+      //   .append("svg")
+      //   .attr("width", dimensions.width)
+      //   .attr("height", dimensions.height);
+
+      // const arc = d3.arc().innerRadius(30).outerRadius(100);
+
+      // const color = '#84AED7s';
+
+      // const arcGroup = svg1
+      //   .append("g")
+      //   .attr("transform", "translate(300, 300)")
+      //   .selectAll("path")
+      //   .data(pieData);
+
+      // // const allCount = data.reduce((pre, cur) => pre + cur.value, 0);
+
+      // const roseArc = d3
+      //   .arc()
+      //   // .innerRadius(0)
+      //   // .outerRadius((d) => {
+      //   //   return (d.value)/1000;
+      //   // })
+      //   .innerRadius(0)
+      //   .outerRadius((d) => {
+      //     return d.data.docked/4000 + 20;
+      //   })
+      //   .cornerRadius(3);
+
+      // arcGroup
+      //   .join("path")
+      //   .attr("fill", d3.color("rgba(109,140,0,1)"))
+      //   .attr("d", roseArc)
+      //   .attr('stroke', 'white')
+      //   .attr('stroke-width', 2);
+
+      // arcGroup3
+      //   .join("text")
+      //   .text((d) => d.data.name)
+      //   .attr("transform", function (d) {
+      //     // let tx = 10 + (d.data.electronic + d.data.classic + d.data.docked)/4000 + 20;
+      //     let tx = 250;
+      //     let dangle = ((d.endAngle - (d.endAngle - d.startAngle) / 2) * 180) / Math.PI - 88
+      //     return `rotate(${dangle})
+      //       translate(${tx})`;
+      //   })
+      //   .attr("fill", "#333");
+   
+//   //Create legend items
+//   var colors = [d3.color("rgba(241,186,161,1)"), d3.color("rgba(188,175,77,1)"), d3.color("rgba(109,140,0,1)")]
+//   var labels = ['electronic', 'classic', 'docked']
+
+//   var Svg = d3.select("#root1")
+
+// // Add one dot in the legend for each name.
+// Svg.selectAll("mydots")
+//   .data(labels)
+//   .enter()
+//   .append("rect")
+//   .attr("x", 670-30)
+//   .attr("y", function(d,i){ return 260 + i*30}) // 100 is where the first dot appears. 25 is the distance between dots
+//   .attr('width', 15)
+//   .attr('height', 15)
+//   .attr('stroke', 'black')
+//   .style("fill", function(d,i){ return colors[i]})
+
+// // Add one dot in the legend for each name.
+// Svg.selectAll("mylabels")
+//   .data(labels)
+//   .enter()
+//   .append("text")
+//     .attr("x", 670)
+//     .attr("y", function(d,i){ return 270 + i*30}) // 100 is where the first dot appears. 25 is the distance between dots
+//     .style("fill", d3.color('Black'))
+//     .text(function(d){ return d})
+//     .attr("text-anchor", "left")
+//     .style("alignment-baseline", "middle")
+
+</script>
+    </script>
+  </body>
+</html>
